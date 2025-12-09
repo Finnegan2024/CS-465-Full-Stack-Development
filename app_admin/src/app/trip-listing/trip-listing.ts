@@ -7,6 +7,8 @@ import { Trip } from '../models/trip';
 
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs';
+import { Authentication } from '../services/authentication';
+
 
 @Component({
   selector: 'app-trip-listing',
@@ -21,13 +23,22 @@ export class TripListingComponent implements OnInit {
   trips!: Trip[];
   message: string = '';
 
-  constructor(private tripDataService: TripDataService, private router: Router) {
+  constructor(
+    private tripDataService: TripDataService,
+    private router: Router,
+    private authenticationService: Authentication
+  ) {
     console.log('trip-listing constructor');
   }
 
   public addTrip(): void {
     this.router.navigate(['add-trip'])
   }
+
+  public isLoggedIn() {
+    return this.authenticationService.isLoggedIn();
+  }
+
 
   private getStuff(): void {
     this.tripDataService.getTrips()
